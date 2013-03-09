@@ -3,14 +3,13 @@
 	jQuery Tags Input Plugin 1.3.3
 	
 	Copyright (c) 2011 XOXCO, Inc
+	Copyright (c) 2013 Peter Hartmann
 	
-	Documentation for this plugin lives here:
-	http://xoxco.com/clickable/jquery-tags-input
+	"jq" function is copyright (c) 2013 jQuery Foundation and other contributors
+	http://learn.jquery.com/?page_id=297
 	
 	Licensed under the MIT license:
 	http://www.opensource.org/licenses/mit-license.php
-
-	ben@xoxco.com
 
 */
 
