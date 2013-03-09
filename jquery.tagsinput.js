@@ -14,6 +14,10 @@
 
 */
 
+function jq( id ) {
+	return "#" + id.replace( /(:|\.|\[|\])/g, "\\$1" );
+}
+
 (function($) {
 
 	var delimiter = new Array();
@@ -23,7 +27,7 @@
 	        maxWidth = $(this).data('maxwidth'),
 	        val = '',
 	        input = $(this),
-	        testSubject = $('#'+$(this).data('tester_id'));
+	        testSubject = $(jq($(this).data('tester_id')));
 	
 	    if (val === (val = input.val())) {return;}
 	
@@ -62,7 +66,7 @@
             whiteSpace: 'nowrap'
         }),
         testerId = $(this).attr('id')+'_autosize_tester';
-    if(! $('#'+testerId).length > 0){
+    if(! $(jq(testerId)).length > 0){
       testSubject.attr('id', testerId);
       testSubject.appendTo('body');
     }
@@ -89,7 +93,7 @@
 					var skipTag = $(this).tagExist(value);
 					if(skipTag == true) {
 					    //Marks fake input as not_valid to let styling it
-    				    $('#'+id+'_tag').addClass('not_valid');
+    				    $(jq(id)+'_tag').addClass('not_valid');
     				}
 				} else {
 					var skipTag = false; 
@@ -103,17 +107,17 @@
                             title : 'Removing tag',
                             text  : 'x'
                         }).click(function () {
-                            return $('#' + id).removeTag(escape(value));
+                            return $(jq(id)).removeTag(escape(value));
                         })
-                    ).insertBefore('#' + id + '_addTag');
+                    ).insertBefore(jq(id) + '_addTag');
 
 					tagslist.push(value);
 				
-					$('#'+id+'_tag').val('');
+					$(jq(id)+'_tag').val('');
 					if (options.focus) {
-						$('#'+id+'_tag').focus();
+						$(jq(id)+'_tag').focus();
 					} else {		
-						$('#'+id+'_tag').blur();
+						$(jq(id)+'_tag').blur();
 					}
 					
 					$.fn.tagsInput.updateTagsField(this,tagslist);
@@ -142,7 +146,7 @@
 	
 				var old = $(this).val().split(delimiter[id]);
 					
-				$('#'+id+'_tagsinput .tag').remove();
+				$(jq(id)+'_tagsinput .tag').remove();
 				str = '';
 				for (i=0; i< old.length; i++) { 
 					if (old[i]!=value) { 
@@ -170,7 +174,7 @@
 	// clear all existing tags and import new ones from a string
 	$.fn.importTags = function(str) {
                 id = $(this).attr('id');
-		$('#'+id+'_tagsinput .tag').remove();
+		$(jq(id)+'_tagsinput .tag').remove();
 		$.fn.tagsInput.importTags(this,str);
 	}
 		
@@ -203,10 +207,10 @@
 			
 			var data = jQuery.extend({
 				pid:id,
-				real_input: '#'+id,
-				holder: '#'+id+'_tagsinput',
-				input_wrapper: '#'+id+'_addTag',
-				fake_input: '#'+id+'_tag'
+				real_input: jq(id),
+				holder: jq(id)+'_tagsinput',
+				input_wrapper: jq(id)+'_addTag',
+				fake_input: jq(id)+'_tag'
 			},settings);
 	
 			delimiter[id] = data.delimiter;
@@ -261,7 +265,7 @@
 						$(data.fake_input).autocomplete(settings.autocomplete_url, settings.autocomplete);
 						$(data.fake_input).bind('result',data,function(event,data,formatted) {
 							if (data) {
-								$('#'+id).addTag(data[0] + "",{focus:true,unique:(settings.unique)});
+								$(jq(id)).addTag(data[0] + "",{focus:true,unique:(settings.unique)});
 							}
 					  	});
 					} else if (jQuery.ui.autocomplete !== undefined) {
@@ -311,7 +315,7 @@
 						 var last_tag = $(this).closest('.tagsinput').find('.tag:last').text();
 						 var id = $(this).attr('id').replace(/_tag$/, '');
 						 last_tag = last_tag.replace(/[\s]+x$/, '');
-						 $('#' + id).removeTag(escape(last_tag));
+						 $(jq(id)).removeTag(escape(last_tag));
 						 $(this).trigger('focus');
 					}
 				});
